@@ -7,6 +7,12 @@
         android:label="FocusOS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
+        <!-- ಈ ಲೈನ್ ತುಂಬಾ ಮುಖ್ಯ! -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+            
         <activity
             android:name=".MainActivity"
             android:exported="true"
