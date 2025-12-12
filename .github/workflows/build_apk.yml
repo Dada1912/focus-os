@@ -1,0 +1,54 @@
+name: Build Ghost APK
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+          
+      - name: Create Base Project & Inject Code
+        run: |
+          # 1. ಹೊಸ ಖಾಲಿ ಫ್ಲಟರ್ ಪ್ರಾಜೆಕ್ಟ್ ಸೃಷ್ಟಿಸು
+          flutter create temp_app --org com.example --project-name focus_os_ghost
+          
+          # 2. ನಮ್ಮ ಕಸ್ಟಮ್ ಕೋಡ್ ಅನ್ನು ಅದರೊಳಗೆ ಹಾಕು
+          cp pubspec.yaml temp_app/
+          cp lib/main.dart temp_app/lib/
+          
+          # 3. Android ಫೈಲ್‌ಗಳನ್ನು ಜಾಗರೂಕತೆಯಿಂದ ಬದಲಾಯಿಸು
+          # Manifest ಬದಲಾವಣೆ
+          cp android/app/src/main/AndroidManifest.xml temp_app/android/app/src/main/
+          
+          # Kotlin ಫೈಲ್‌ಗಳು
+          mkdir -p temp_app/android/app/src/main/kotlin/com/example/focus_os_ghost
+          cp android/app/src/main/kotlin/com/example/focus_os_ghost/*.kt temp_app/android/app/src/main/kotlin/com/example/focus_os_ghost/
+          
+          # 4. ಬಿಲ್ಡ್ ಫೋಲ್ಡರ್‌ಗೆ ಹೋಗು
+          cd temp_app
+          
+          # 5. Dependencies ಡೌನ್‌ಲೋಡ್ ಮಾಡು
+          flutter pub get
+          
+          # 6. APK ಬಿಲ್ಡ್ ಮಾಡು
+          flutter build apk --release --no-tree-shake-icons
+          
+          # 7. APK ಅನ್ನು ಹೊರಗೆ ತರು
+          mv build/app/outputs/flutter-apk/app-release.apk ../ghost-mode.apk
+          
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: focus-os-ghost-apk
+          path: ghost-mode.apk

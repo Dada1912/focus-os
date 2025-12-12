@@ -1,0 +1,17 @@
+name: focus_os_ghost
+description: The invisible productivity OS.
+version: 1.0.0+1
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_services_binding: ^0.1.0 
+  external_app_launcher: ^3.0.0
+  shared_preferences: ^2.2.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+flutter:
+  uses-material-design: true
