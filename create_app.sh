@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "🚀 FocusOS Ghost Project (Fixing V2 Embedding)..."
+echo "🚀 Fixing Android V2 Embedding Issue..."
 
-# 1. ಫೋಲ್ಡರ್ ಸ್ಟ್ರಕ್ಚರ್ (ಆಗಲೇ ಇದೆ, ಆದರೂ ಇರಲಿ)
+# 1. Folder Setup
 mkdir -p lib
 mkdir -p android/app/src/main/kotlin/com/example/focus_os_ghost
 mkdir -p .github/workflows
@@ -28,8 +28,7 @@ flutter:
   uses-material-design: true
 EOF
 
-# 3. Android Manifest (FIXED VERSION ✅)
-# ಇಲ್ಲಿ meta-data tag ಸೇರಿಸಲಾಗಿದೆ.
+# 3. Android Manifest (FIXED WITH META-DATA)
 cat <<EOF > android/app/src/main/AndroidManifest.xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.focus_os_ghost">
@@ -41,7 +40,7 @@ cat <<EOF > android/app/src/main/AndroidManifest.xml
         android:name="\${applicationName}"
         android:icon="@mipmap/ic_launcher">
         
-        <!-- ಈ ಲೈನ್ ತುಂಬಾ ಮುಖ್ಯ! -->
+        <!-- THE FIX IS HERE -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
@@ -238,7 +237,7 @@ class _GhostHomeScreenState extends State<GhostHomeScreen> {
     );
   }
 
- Widget _buildAppIcon(IconData icon, String label, VoidCallback onTap, Color color) {
+  Widget _buildAppIcon(IconData icon, String label, VoidCallback onTap, Color color) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -301,4 +300,5 @@ jobs:
           path: ghost-mode.apk
 EOF
 
-echo "✅ Fix Applied! Run git push now."
+echo "✅ Fix Ready! Save and Run."
+
