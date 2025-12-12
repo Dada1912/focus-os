@@ -106,7 +106,8 @@ class _GhostHomeScreenState extends State<GhostHomeScreen> {
     );
   }
 
-  Widget _buildAppIcon(IconData icon, String label, VoidCallback onTap, Color color) {
+
+Widget _buildAppIcon(IconData icon, String label, VoidCallback onTap, Color color) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
